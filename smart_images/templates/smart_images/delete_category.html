@@ -1,0 +1,25 @@
+{% extends "smart_images/base.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-white text-center mb-4">Delete Category</h2>
+            <form method="POST" action="{% url 'smart-images-delete-category' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="deleteCategory" class="text-white">Select Category to Delete</label>
+                    <select id="deleteCategory" name="category_name" class="form-control">
+                        {% for category in user_categories %}
+                        <option value="{{ category.name }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn btn-outline-light mr-3">Delete</button>
+                    <a href="{% url 'smart-images-edit-categories' %}" class="btn btn-outline-light">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

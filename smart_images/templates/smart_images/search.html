@@ -1,0 +1,20 @@
+{% extends "smart_images/base.html" %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Search an Image</h1>
+    <p>Here, just write your image's description as you remember it, and we will make the magic to find it for you! </p>
+    <form method="POST" action="{% url 'smart-images-search-images' %}">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="search" name="query" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </div>
+    </form>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "smart_images/base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col">
+            <button onclick="downloadImage('{{ photo.image.url }}')" class="btn btn-dark my-3 download-button">
+                <i class="bi bi-download"></i> Download
+            </button>
+            <script>
+                function downloadImage(url) {
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = '';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            </script>
+            <a href="{% url 'smart-images-gallery' %}" class="btn btn-dark my-3">
+                <i class="bi bi-arrow-return-left"></i> Go Back
+            </a>
+            <div class="image-container">
+                <img src="{{ photo.image.url }}" class="image-thumbnail">
+            </div>
+            <div style="margin-bottom: 30px;"></div>
+            <div class="text-center" style="margin-bottom: 30px;">
+            {% if photo.category.name %}
+                <p class="card-text text-white">Current category is {{ photo.category.name }}</p>
+            {% else %}
+                <p class="card-text text-white">Category: No Category yet</p>
+            {% endif %}
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <label for="new_category" class="text-white">Change Category:</label>
+                <select name="new_category" id="new_category" class="form-control">
+                    <option value="" selected disabled>Select a category</option>
+                    {% for category in all_categories %}
+                        <option value="{{ category.pk }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="d-flex mt-3 mb-4"> <!-- Increase the margin-bottom value -->
+                    <button type="submit" class="btn btn-outline-light">
+                        <i class="bi bi-arrow-repeat"></i> Change Category
+                    </button>
+                    <button type="submit" class="btn btn-outline-light ml-2"> <!-- Add ml-4 class for margin -->
+                        <i class="bi bi-x-circle"></i> Delete Photo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "smart_images/base.html" %}
+{% block content %}
+    <style>
+        .center-aligned {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .center-aligned a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .center-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Adjust this value to create space */
+            margin-bottom: 20px; /* Adjust this value to create space */
+        }
+
+        .d-flex-center {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px; /* Adjust this value to create space */
+        }
+
+        .center-aligned > a {
+            margin-right: 15px; /* Adjust this value to create space between the links */
+        }
+
+        /* Equal square sizes for images */
+        .card {
+            height: 0;
+            padding-top: 100%; /* Aspect ratio of 1:1 (square) */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-img-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer; /* Add pointer cursor to indicate clickable image */
+        }
+
+        .question-mark-icon {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            font-size: 18px;
+            color: white;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .question-mark-icon::after {
+            content: "For single image search simply describe it. For multiple images search use ''images'' or ''photos'' in your search query";
+            position: absolute;
+            top: 40px; /* Adjust the distance from the top */
+            left: 100%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 10px; /* Increase the padding for a larger hover window */
+            border-radius: 10px; /* Increase the border radius for a more rounded shape */
+            font-size: 14px; /* Increase the font size for better readability */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            width: 200px; /* Adjust the width to make the hover window wider */
+            text-align: center; /* Center-align the text */
+        }
+
+        .question-mark-icon:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    </style>
+    <div class="center-aligned">
+        <a href="{% url 'smart-images-upload-images' %}">
+            <i class="bi bi-images"></i> Upload Pictures
+        </a>
+    </div>
+    <div class="container">
+        {% if photos %}
+        <div class="search-form mr-2">
+            <form method="POST" action="{% url 'smart-images-search-images' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <span class="question-mark-icon" >?</span>
+                    <input type="search" name="query" class="form-control rounded" placeholder="Search for images..." aria-label="Search" aria-describedby="search-addon" />
+                    <button type="submit" class="btn btn-outline-light">Search</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+        <div class="center-aligned">
+            <a href="{% url 'smart-images-edit-categories' %}">
+                <i class="bi bi-pencil-square"></i> Edit Categories
+            </a>
+            {% if photos %}
+            <a href="{% url 'smart-images-auto-categories-update' %}">
+                <i class="bi bi-hurricane"></i> Auto Generate Categories
+            </a>
+            {% endif %}
+        </div>
+    </div> <!-- Close the container for buttons -->
+
+    <div class="d-flex-center"> <!-- Add margin to center-aligned categories -->
+        <a href="{% url 'smart-images-gallery' %}" class="btn btn-outline-light mr-2">All Pics</a>
+        {% for category in categories %}
+            {% if category.user == request.user or category.user == None %}
+                <a href="{% url 'smart-images-gallery' %}?category={{ category.name }}" class="btn btn-outline-light mr-2">{{ category.name }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="center-row"> <!-- Center-align the row -->
+        <div class="col-md-9">
+            {% if messages %}
+                <div class="alert alert-info" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="row">
+                {% for photo in photos %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <a href="{% url 'smart-images-view-photo' photo.id %}">
+                                <img src="{{ photo.image.url }}" class="card-img-top" alt="Photo">
+                            </a>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col">
+                        <h3>No Photos have been uploaded yet...</h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+<script>
+        setTimeout(function() {
+            document.querySelectorAll('.alert').forEach(function(alert) {
+                alert.remove();
+            });
+        }, 7000); // 7000 milliseconds (7 seconds)
+    </script>
+{% endblock %}

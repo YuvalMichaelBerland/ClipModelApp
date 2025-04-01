@@ -1,0 +1,21 @@
+{% extends "smart_images/base.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-white text-center mb-4">Add Category</h2>
+            <form method="POST" action="{% url 'smart-images-add-category' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="categoryName" class="text-white">Category Name</label>
+                    <input type="text" id="categoryName" name="name" class="form-control" required>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn btn-outline-light">Add Category</button>
+                    <a href="{% url 'smart-images-edit-categories' %}" class="btn btn-outline-light ml-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

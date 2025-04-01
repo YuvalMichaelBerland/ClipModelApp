@@ -1,0 +1,29 @@
+{% extends "smart_images/base.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-white text-center mb-4">Edit Category</h2>
+            <form method="POST" action="{% url 'smart-images-edit-category' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="editCategory" class="text-white">Select Category to Edit</label>
+                    <select id="editCategory" name="category_name" class="form-control">
+                        {% for category in user_categories %}
+                        <option value="{{ category.name }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newCategoryName" class="text-white">New Category Name</label>
+                    <input type="text" id="newCategoryName" name="new_name" class="form-control" required>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn btn-outline-light mr-3">Edit Category</button>
+                    <a href="{% url 'smart-images-edit-categories' %}" class="btn btn-outline-light">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

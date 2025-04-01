@@ -1,0 +1,31 @@
+{% extends "smart_images/base.html" %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Photo</title>
+</head>
+<body class="m-9">
+    <div class="container" style="margin-top: 100px;">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="form-group m-3">
+                            <label>Upload Images</label>
+                            <p>Add your image files here, and the model will classify them into categories for you.</p>
+                            <input required name="image" type="file" multiple class="form-control-file">
+                        </div>
+
+                        <button type="submit" class="btn btn-dark m-3">Submit</button>
+                    </form>
+                </div>
+                <a href="{% url 'smart-images-gallery' %}" class="btn btn-dark my-3">Go Back</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

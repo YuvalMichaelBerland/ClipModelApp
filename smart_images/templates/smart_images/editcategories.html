@@ -1,0 +1,40 @@
+{% extends "smart_images/base.html" %}
+{% block content %}
+<style>
+    body {
+        font-family: Calibri, sans-serif;
+    }
+</style>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-white text-center mb-4">Edit Categories Menu</h2>
+
+            <div class="text-white mt-4">
+                <h3 class="mb-3 text-white">Your Categories:</h3>
+                <ul class="list-unstyled">
+                    {% for category in user_categories %}
+                    <li>{{ category.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="text-white mt-4">
+                <h3 class="mb-3 text-white">Default Categories:</h3>
+                <ul class="list-unstyled">
+                    {% for category in default_categories %}
+                    <li>{{ category.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="d-flex justify-content-center mt-5">
+                <a href="{% url 'smart-images-add-category' %}" class="btn btn-outline-light mr-3">Add Category</a>
+                <a href="{% url 'smart-images-delete-category' %}" class="btn btn-outline-light mr-3">Delete Category</a>
+                <a href="{% url 'smart-images-edit-category' %}" class="btn btn-outline-light mr-3">Edit Category</a>
+                <a href="{% url 'smart-images-gallery' %}" class="btn btn-outline-light">Return to Gallery</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
