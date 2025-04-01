@@ -34,8 +34,8 @@ Unlike conventional image categorization methods, our application enables users 
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-repo/smart-images.git
-cd smart-images
+git clone https://github.com/your-repo/ClipModelApp.git
+cd ClipModelApp
 
 # Create and activate virtual environment
 python -m venv venv
